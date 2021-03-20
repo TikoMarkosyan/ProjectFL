@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\container",
+    "\\src\\container\\Auth",
+    "\\src\\navigation",
+    "\\src\\redux",
+    "\\src\\redux\\Actions",
+    "\\src\\redux\\Actions\\api",
+    "\\src\\redux\\Reducers",
+    "\\src\\redux\\Store"
+  ],
+  "SelectedNode": "\\src\\container\\Main\\Home.js",
+  "PreviewInSolutionExplorer": false
+}
