@@ -11,6 +11,6 @@
     "\\src\\redux\\Reducers",
     "\\src\\redux\\Store"
   ],
-  "SelectedNode": "\\src\\container\\Main\\Home.js",
+  "SelectedNode": "\\src\\container\\Auth\\SignUp.js",
   "PreviewInSolutionExplorer": false
 }

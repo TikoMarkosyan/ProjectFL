@@ -7,6 +7,7 @@ import FrgotPassword from '../container/Auth/FrgotPassword';
 import Home from "../container/Main/Home";
 const Stack = createStackNavigator();
 
+
 export  function Auth() {
     return (
         <NavigationContainer>

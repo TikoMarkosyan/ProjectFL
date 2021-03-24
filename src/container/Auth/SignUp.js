@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
     SafeAreaView,
     ScrollView,
@@ -12,12 +12,23 @@ import {
 import { connect } from "react-redux";
 import { signUp } from "../../redux/Actions/authActions";
 function SignUp(props) {
-
+    console.log("back singin part 4444444444444444444444444444444444444444444444444444");
+    console.log(props)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [reapeatPassword, setReapeatPassword] = useState("");
     const [error, setError] = useState("");
 
+    useEffect(() => {
+        console.log(props.uid);
+        if (props.uidW) {
+            setEmail("");
+            setPassword("");
+            setReapeatPassword("");
+            setError("")
+            props.navigation.goBack();
+        }
+    },[props])
     const onReg = () => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (reg.test(email) !== false && password === reapeatPassword && password.length >= 6) {
@@ -26,7 +37,6 @@ function SignUp(props) {
                 password: password
             }
             props.signUp(obj);
-            props.navigation.goBack();
         } else if (reg.test(email) === false) {
             setError("email is not valid");
         } else if (password !== reapeatPassword) {
@@ -48,7 +58,7 @@ function SignUp(props) {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    console.log(state+ "tiko");
     const uid = state.firebase.auth.uid;
     return {
         uid: uid,

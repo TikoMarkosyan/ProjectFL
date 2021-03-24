@@ -13,7 +13,7 @@ const userReducer = (state = initialState, action) => {
 
 	switch (action.type) {
 		case types.GET_INFO:
-			console.log("test", action.playoud)
+		//	console.log("test", action.playoud)
 			return {
 				user: {
 					...action.playoud

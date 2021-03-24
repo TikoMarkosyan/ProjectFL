@@ -3,15 +3,22 @@
  * */
 import * as types from '../Actions/types';
 
-
-const authReducer = (state = {}, action) => {
+const initialState = {
+	authUser: {
+		emailVerified: "",
+		uid: "",
+	}
+}
+const authReducer = (state = initialState, action) => {
 
 	switch (action.type) {
 
 		case types.SING_IN:
 			return {
-				...state,
-				userinfo:action.playoud
+				authUser: {
+					emailVerified: action.playoud.user.emailVerified,
+					uid: action.playoud.user.uid
+				}
 			}
 		case types.SING_IN_ERR:
 			console.log("Sign in error...");
@@ -20,9 +27,13 @@ const authReducer = (state = {}, action) => {
 			console.log("You signed out..");
 			return state;
 		case types.SIGN_UP:
-			console.log("tiko welcome")
-			toast("Welcome..");
-			return state;
+			return {
+				authUser: {
+					emailVerified: action.playoud.user.emailVerified,
+					uid: action.playoud.user.uid
+				}
+				
+			};
 		case types.SIGN_UP_ERR:
 			console.log("Sign up error...");
 			return state;

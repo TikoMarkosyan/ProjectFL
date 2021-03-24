@@ -31,7 +31,6 @@ function SingIn(props) {
         }
     }
     const onRegistrathion = () => {
-        console.log("tiko");
         props.navigation.navigate('SingUp');
     }
     const onChangePaswword = () => {
@@ -51,6 +50,8 @@ function SingIn(props) {
 }
 
 const mapStateToProps = (state) => {
+   // console.log("ssssddddddddddsssssssss")
+    //console.log(state);
     const uid = state.firebase.auth.uid;
     return {
         uid: uid,

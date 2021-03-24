@@ -4,13 +4,13 @@ import firestore from "@react-native-firebase/firestore";
 export const signIn = creds => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
-
+        console.log("test singin");
         firebase
             .auth()
             .signInWithEmailAndPassword(creds.email, creds.password)
             .then((res) => {
-             
-                dispatch({ type: types.SING_IN, playoud:res}, res);
+            
+                dispatch({ type: types.SING_IN, playoud:res});
             })
             .catch(err => {
                 console.log(err);
@@ -36,7 +36,7 @@ export const signOut = () => {
 };
 
 export const signUp = creds => {
-    return (dispatch, getState, { getFirebase }) => {
+    return  (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
         firebase
             .auth()
@@ -44,7 +44,7 @@ export const signUp = creds => {
             .then((res) => {
              
                 const user = firebase.auth().currentUser;
-                user.sendEmailVerification();
+                 user.sendEmailVerification();
             // need to change for real db
                 firestore()
                     .collection('users')
@@ -53,7 +53,7 @@ export const signUp = creds => {
                         firstname: "Tigran2",
                         secondename: "Markosyan3",
                     });
-                dispatch({ type: types.SIGN_UP });
+                dispatch({ type: types.SIGN_UP, playoud: res},res);
             })
             .catch(err => {
                 console.log(err)
