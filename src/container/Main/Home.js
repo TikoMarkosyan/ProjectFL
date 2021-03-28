@@ -11,16 +11,29 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 import { signOut } from "../../redux/Actions/authActions";
-import { getUser } from "../../redux/Actions/api/User";
+import { getHallName } from "../../redux/Actions/hallFoodAction";
+import  getUser  from "../../api/User";
+import { getHall,getTable}  from "../../api/Halls";
 function Home(props) {
-
+    const [hallName, setHallName] = useState("");
     const [load, setLoad] = useState(true);
+
+    const chooseTable = (tbname, hallName) => {
+        if (props.tables[tbname].reservation.booking !== true) {
+            props.getTable(tbname, hallName);
+            props.navigation.navigate('Table');
+        }
+    }
+    const chooseHall = (hallName) => {
+        props.getHallName(hallName);
+        props.getHall(hallName);
+    }
+
     useEffect(() => {
-        props.getUser(props.uid);
+        props.getUser(props.hallName);
     }, [])
 
     useEffect(() => {
-        console.log(props.user)
         setLoad(false);
     }, [props])
 
@@ -28,27 +41,50 @@ function Home(props) {
         
         load ? <Text>Loadding</Text> :
             <>
-                <Text>{props.user.user.firstname} welcome home</Text>
-                <Button title="logout" onPress={() => { console.log("singout"); props.signOut() }} />
+                <TextInput placeholder="Hall" type="text" onChangeText={(val) => { setHallName(val) }} />
+                <Button title="serach table" onPress={() => { chooseHall(hallName); }} />
+                { Object.keys(props.tables).map((el, id) => {
+                    if (props.tables[el].reservation.booking === true) {
+                        return (<><Text>{props.tables[el].name + " is booking"}</Text>
+                            </>
+                        )
+                    }
+                    return (<>
+                        <Text>{" table name " + props.tables[el].name}</Text>
+                        <Button title="this table" onPress={() => { chooseTable(props.tables[el].name, hallName) }} />
+                    </>
+                    )
+                })}
+                <Button title="logout" onPress={() => {  props.signOut() }} />
             </>
         
     )
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+
     const uid = state.firebase.auth.uid;
     const user = state.user;
+    const tables = state.hallFoodReducer.tables;
+    const shoppingcard = state.hallFoodReducer.shoppingCard;
+    const hallname = state.hallFoodReducer.hallName;
+
     return {
         uid: uid,
-        user:user
+        user: user,
+        tables: tables,
+        shoppingcard: shoppingcard,
+        hallname: hallname
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         signOut: () => dispatch(signOut()),
-        getUser: (id) => dispatch(getUser(id))
+        getUser: (id) => dispatch(getUser(id)),
+        getHall: (name) => dispatch(getHall(name)),
+        getTable: (id, name) => dispatch(getTable(id, name)),
+        getHallName: (name) => dispatch(getHallName(name)),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

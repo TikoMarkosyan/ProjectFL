@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "830888345262",
+    "firebase_url": "https://projectfl-20a2a-default-rtdb.firebaseio.com",
     "project_id": "projectfl-20a2a",
     "storage_bucket": "projectfl-20a2a.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "830888345262-7kuvgga47qh2vlvqausps9j0j0g9ovaa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projectfl",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
         {
           "client_id": "830888345262-feldsb9fnbmpeacfv13aurh6cv2ptcq5.apps.googleusercontent.com",
           "client_type": 3

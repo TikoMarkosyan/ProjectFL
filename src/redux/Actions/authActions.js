@@ -1,5 +1,41 @@
 import * as types from './types';
-import firestore from "@react-native-firebase/firestore";
+import firestore, { firebase } from "@react-native-firebase/firestore";
+
+import {
+    GoogleSignin,
+    GoogleSigninButton,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
+import { result } from 'lodash';
+
+// get auth in google
+export const signInGoogle =  () => {
+    return async (dispatch, getState, { getFirebase }) => {
+        try {
+            const firebase = getFirebase();
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            const credential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken, userInfo.accessToken);
+            const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
+            console.log(firebaseUserCredential);
+            dispatch({ type: types.SING_IN, playoud: firebaseUserCredential });
+            } catch (error) {
+            console.log(error)
+                if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                    // user cancelled the login flow
+                    console.log("cancled")
+                } else if (error.code === statusCodes.IN_PROGRESS) {
+                    // operation (e.g. sign in) is in progress already
+                    console.log("progres")
+                } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                    // play services not available or outdated
+                    console.log("chka")
+                } else {
+                    // some other error happened
+                }
+            }
+    }
+};
 
 export const signIn = creds => {
     return (dispatch, getState, { getFirebase }) => {
@@ -18,7 +54,6 @@ export const signIn = creds => {
             });
     };
 };
-
 
 export const signOut = () => {
     return (dispatch, getState, { getFirebase }) => {

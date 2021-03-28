@@ -1,7 +1,7 @@
 import firestore from "@react-native-firebase/firestore";
 
 
-export const getUser = (uid) => {
+export default  getUser = (uid) => {
     return (dispatch, getState, { getFirebase }) => {
         firestore().collection('users').doc(uid).get().then((doc) => {
             if (doc.exists) {

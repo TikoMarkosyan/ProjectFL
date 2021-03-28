@@ -20,7 +20,8 @@ function ForgotPassword(props) {
             props.forgotPassword(email);
             props.navigation.goBack();
         } else {
-            console.log("erro is not valid email");
+            // to do error messeage
+           // console.log("error is not valid email");
         }
 
     }

@@ -12,8 +12,7 @@ import {
 import { connect } from "react-redux";
 import { signUp } from "../../redux/Actions/authActions";
 function SignUp(props) {
-    console.log("back singin part 4444444444444444444444444444444444444444444444444444");
-    console.log(props)
+    // console.log(props)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [reapeatPassword, setReapeatPassword] = useState("");
@@ -21,14 +20,15 @@ function SignUp(props) {
 
     useEffect(() => {
         console.log(props.uid);
-        if (props.uidW) {
+        if (props.uid) {
             setEmail("");
             setPassword("");
             setReapeatPassword("");
             setError("")
             props.navigation.goBack();
         }
-    },[props])
+    }, [props])
+
     const onReg = () => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (reg.test(email) !== false && password === reapeatPassword && password.length >= 6) {
@@ -45,6 +45,7 @@ function SignUp(props) {
             setError("password is short");
         }
     }
+
     return ( 
         <>
             <TextInput placeholder="email" onChangeText={(val) => { setEmail(val) }} />
@@ -58,7 +59,6 @@ function SignUp(props) {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state+ "tiko");
     const uid = state.firebase.auth.uid;
     return {
         uid: uid,

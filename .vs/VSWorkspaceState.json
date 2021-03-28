@@ -4,13 +4,13 @@
     "\\src",
     "\\src\\container",
     "\\src\\container\\Auth",
+    "\\src\\container\\Main",
     "\\src\\navigation",
     "\\src\\redux",
     "\\src\\redux\\Actions",
-    "\\src\\redux\\Actions\\api",
     "\\src\\redux\\Reducers",
     "\\src\\redux\\Store"
   ],
-  "SelectedNode": "\\src\\container\\Auth\\SignUp.js",
+  "SelectedNode": "\\App.js",
   "PreviewInSolutionExplorer": false
 }

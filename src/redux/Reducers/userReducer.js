@@ -13,12 +13,14 @@ const userReducer = (state = initialState, action) => {
 
 	switch (action.type) {
 		case types.GET_INFO:
-		//	console.log("test", action.playoud)
 			return {
 				user: {
 					...action.playoud
                 }
 			};
+		case types.SIGN_OUT: {
+			return initialState
+		}
 		default:
 			return state;
 	}
