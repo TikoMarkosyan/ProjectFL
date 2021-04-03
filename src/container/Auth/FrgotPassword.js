@@ -10,25 +10,30 @@ import {
     Button,
 } from 'react-native';
 import { connect } from "react-redux";
-import { signIn, forgotPassword } from "../../redux/Actions/authActions";
+import { errorMessage, signIn, forgotPassword } from "../../redux/Actions/authActions";
+
+import Error from "../../utils/Error";
+import { strings } from '../../utils/i18n';
 
 function ForgotPassword(props) {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(false);
     const onChangePaswword = () => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (reg.test(email) !== false) {
             props.forgotPassword(email);
             props.navigation.goBack();
         } else {
-            // to do error messeage
-           // console.log("error is not valid email");
+            setEmail(true);
+            props.errorMessage(strings("frgotpassword.error_email_valid"));
+           
         }
 
     }
     return (
         <>
-            <TextInput placeholder="email" type="email" onChangeText={(val) => { setEmail(val) }} />
-            <Button title="FrogotPassword" onPress={() => onChangePaswword()} />
+            {email ? null : <Error />  }
+            <TextInput placeholder={strings("frgotpassword.email_textinput") } type="email" onChangeText={(val) => { setEmail(val) }} />
+            <Button title={strings("frgotpassword.Frgotpassword_button")} onPress={() => onChangePaswword()} />
         </>
 
     )
@@ -43,7 +48,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         signIn: (creds) => dispatch(signIn(creds)),
-        forgotPassword: (email) => dispatch(forgotPassword(email))
+        forgotPassword: (email) => dispatch(forgotPassword(email)),
+        errorMessage: (errMessage) => dispatch(errorMessage(errMessage))
 
     };
 };

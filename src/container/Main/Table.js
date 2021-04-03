@@ -13,6 +13,7 @@ import {
 
 import { connect } from "react-redux";
 import { getHall, setOrder,getOnlyOneFood, setTableRezerv } from "../../api/Halls";
+import { strings } from '../../utils/i18n';
 
 function Table(props) {
 
@@ -37,7 +38,7 @@ function Table(props) {
                 <>
                     <Text>{"food name " + item}</Text>
                     <Text>{"price " + props.menu[item].price  }</Text>
-                    <Button title="add" onPress={() => { menuorder(props.hallname, item); }} />
+                    <Button title={strings("table.add_button") } onPress={() => { menuorder(props.hallname, item); }} />
                      </>
                 )
          })
@@ -83,7 +84,7 @@ return (
         <Text>Your Order:</Text>
         {shoppingcard()}
         <Text>your order prise is: {orderPrice}</Text>
-        <Button title="order" onPress={ reserv }/>
+        <Button title={strings("table.order_button")}  onPress={ reserv }/>
         </>
         )
 }

@@ -1,19 +1,18 @@
 import firestore from "@react-native-firebase/firestore";
-
+import { strings } from '../utils/i18n';
 // const string change types.ver
 
 export const getHall = (name) => {
     return (dispatch, getState, { getFirebase }) => {
         firestore().collection('halls').doc(name).get().then((doc) => {
             if (doc.exists) {
-                console.log("Document data:", doc.data());
                 dispatch({ type: "GET_TABLE", playoud: doc.data() });
             } else {
                 // doc.data() will be undefined in this case
-                console.log("No such document!");
+                dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: strings("error.error_document") } },);
             }
         }).catch((error) => {
-            console.log("Error getting document:", error);
+            dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: error+"" } },);
         });
     };
 }
@@ -24,17 +23,15 @@ export const getTable = (id, name) => {
     return (dispatch, getState, { getFirebase }) => {
         firestore().collection("halls").doc(name).get().then((doc) => {
             if (doc.exists) {
-                console.log(doc.data().tables[id]);
                 dispatch({ type: "OPEN_TABLE", playoud: doc.data().tables[id] });
             } else {
                 // doc.data() will be undefined in this case
-                console.log(id, name);
-                console.log("No such document!");
+                dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: strings("error.error_document") } },);
             }
           
             
         }).catch((error) => {
-            console.log("Error getting document:", error);
+            dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: error+"" } },);
         });
 
     }
@@ -47,13 +44,12 @@ export const getOnlyOneFood = (name,i) => {
                 dispatch({ type: "GET_ONE_FOOD", playoud: doc.data().menu[i] });
             } else {
                 // doc.data() will be undefined in this case
-                console.log(id, name);
-                console.log("No such document!");
+                dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: strings("error.error_document") } },);
             }
 
 
         }).catch((error) => {
-            console.log("Error getting document:", error);
+            dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: error + "" } },);
         });
 
     }

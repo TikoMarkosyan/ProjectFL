@@ -2,15 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\assets\\locales",
     "\\src\\container",
     "\\src\\container\\Auth",
     "\\src\\container\\Main",
-    "\\src\\navigation",
     "\\src\\redux",
-    "\\src\\redux\\Actions",
-    "\\src\\redux\\Reducers",
-    "\\src\\redux\\Store"
+    "\\src\\utils"
   ],
-  "SelectedNode": "\\App.js",
+  "SelectedNode": "\\src\\container\\Main\\Table.js",
   "PreviewInSolutionExplorer": false
 }

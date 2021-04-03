@@ -16,8 +16,6 @@ import { connect } from "react-redux";
 function App(props) {
     const [root, setRoot] = useState(false)
     useEffect(() => {
-        console.log("tiko markoyan tiko markosyan");
-        console.log(props.uid && props.emailVerified);
         if (props.uid && props.emailVerified) {
             setRoot(true);
         } else {
@@ -25,7 +23,7 @@ function App(props) {
         } 
     }, [props])
     const res = root ? <LogIn /> : <Auth />
-    console.log((props.uid && props.emailVerified) ? "mtanq aziz" : "login hl@" )
+
     return (
             <>
             { res } 
@@ -34,8 +32,6 @@ function App(props) {
 };
 
 const mapStateToProps = (state) => {
-    console.log("final 3333333333333333333333333333333333333333333333333333");
-    console.log(state.auth.authUser);
     const uid = state.firebase.auth.uid;
     const isLoaded = state.firebase.auth.isLoaded;
     if (isLoaded) {

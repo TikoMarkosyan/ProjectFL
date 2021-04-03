@@ -13,6 +13,8 @@ import {
 
 import InputSpinner from "react-native-input-spinner";
 import { addFoodOrder } from "../../redux/Actions/hallFoodAction";
+import { strings } from '../../utils/i18n';
+
 import { connect } from "react-redux";
 
 function Menu(props) {
@@ -43,7 +45,7 @@ function Menu(props) {
                             <>
                             <Text>{item + " ka"}</Text>
                                 <Button
-                                    title="add"
+                                    title={strings("menu.add_button")}
                                     onPress={() => { toggleIngredients(item,false) }}
                                   />
                             </>
@@ -53,13 +55,12 @@ function Menu(props) {
                              <>
                                  <Text>{item + " cka"}</Text>
                                  <Button
-                                     title="remove"
+                                     title={strings("menu.remove_button")}
                                      onPress={() => { toggleIngredients(item, true) }}
                                  />
                              </>
                          )
                      } else if (foodIngredients[item] >= 1 && item != "price") {
-                         console.log(foodIngredients[item])
                              return(
                                  <>
                                      <Text>bajin
@@ -90,7 +91,7 @@ function Menu(props) {
         <>
             <Text>tiko</Text>
             { res}
-            <Button title="save" onPress={() => { save(foodIngredients) }} />
+            <Button title={strings("menu.save_button")} onPress={() => { save(foodIngredients) }} />
     </>
     )
 }

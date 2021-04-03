@@ -7,7 +7,7 @@ import {
     statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { result } from 'lodash';
-
+import { strings } from '../../utils/i18n';
 // get auth in google
 export const signInGoogle =  () => {
     return async (dispatch, getState, { getFirebase }) => {
@@ -23,15 +23,16 @@ export const signInGoogle =  () => {
             console.log(error)
                 if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                     // user cancelled the login flow
-                    console.log("cancled")
+                    dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: strings("error.error_cancled") } },);
                 } else if (error.code === statusCodes.IN_PROGRESS) {
                     // operation (e.g. sign in) is in progress already
-                    console.log("progres")
                 } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
                     // play services not available or outdated
-                    console.log("chka")
+
+                    dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: strings("error.error_serices_available_outdated") } },);
                 } else {
                     // some other error happened
+                    dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: strings("error.error_somthing_wrong") } },);
                 }
             }
     }
@@ -40,17 +41,19 @@ export const signInGoogle =  () => {
 export const signIn = creds => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
-        console.log("test singin");
         firebase
             .auth()
             .signInWithEmailAndPassword(creds.email, creds.password)
             .then((res) => {
-            
-                dispatch({ type: types.SING_IN, playoud:res});
+                if (res.user.emailVerified) {
+                    dispatch({ type: types.SING_IN, playoud: res });
+                } else {
+                    dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: strings("error.error_email_valid") } }, );
+                }
             })
             .catch(err => {
-                console.log(err);
-                dispatch({ type: types.SIGN_IN_ERR }, err);
+             
+                dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: err+"" } },);
             });
     };
 };
@@ -103,7 +106,17 @@ export const forgotPassword = (email) => {
         firebase
             .auth()
             .sendPasswordResetEmail(email)
-            .then(() => console.log('', 'Your password reset mail has been sent'))
-            .catch(error => console.log('Error', error.message));
+            .then(() => {
+                dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Success", errorName: strings("notifications.change_password")  } },);
+            })
+            .catch(error => {
+                dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: error + "" } },);
+            });
     };
+}
+
+export const errorMessage = (errMessage) => {
+    return (dispatch, getState, { getFirebase }) => {
+        dispatch({ type: types.SIGN_IN_ERR, playoud: { errorTitle: "Error", errorName: errMessage} },);
+    }
 }

@@ -16,10 +16,10 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }*/
 //firebase.initializeApp(firebaseConfig);
-//!firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+//!firebase.apps.length ? firebase.initializeApp(config) : firebase.app(); config
 
 if (!firebase.apps.length) {
-    firebase.initializeApp(config)
+    firebase.initializeApp(firebaseConfig)
     firebase.firestore();
 } else {
     firebase.app()

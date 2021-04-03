@@ -9,14 +9,19 @@ import {
     View,
     Button,
 } from 'react-native';
+
 import { connect } from "react-redux";
-import { signUp } from "../../redux/Actions/authActions";
+import { errorMessage, signUp } from "../../redux/Actions/authActions";
+
+import Error from "../../utils/Error";
+import { strings } from '../../utils/i18n';
+
 function SignUp(props) {
-    // console.log(props)
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [reapeatPassword, setReapeatPassword] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         console.log(props.uid);
@@ -38,21 +43,27 @@ function SignUp(props) {
             }
             props.signUp(obj);
         } else if (reg.test(email) === false) {
-            setError("email is not valid");
+            setError(true);
+            props.errorMessage(strings("signup.error_email_valid"));
         } else if (password !== reapeatPassword) {
-            setError("password is not the same");
+            setError(true);
+            props.errorMessage(strings("signup.error_password_not_same"));
         } else if (password.length <= 6) {
-            setError("password is short");
-        }
+            setError(true);
+            props.errorMessage(strings("signup.error_password_short"));
+        } else if (email === "" || password === "" || reapeatPassword === "") {
+            setError(true);
+            props.errorMessage(strings("signup.error_fill_all_fileds"));
+        } 
     }
 
     return ( 
         <>
-            <TextInput placeholder="email" onChangeText={(val) => { setEmail(val) }} />
-            <TextInput placeholder="password" onChangeText={(val) => { setPassword(val) }} />
-            <TextInput placeholder="repeat password" onChangeText={(val) => { setReapeatPassword(val) }} />
-            <Text>{ error }</Text>
-            <Button title="Reg" onPress={() => onReg()} />
+            { error ? < Error /> : null}
+            <TextInput placeholder={strings("signup.email_textinput") } onChangeText={(val) => { setEmail(val) }} />
+            <TextInput placeholder={strings("signup.password_textinput")} onChangeText={(val) => { setPassword(val) }} />
+            <TextInput placeholder={strings("signup.repeatPassword_textinput")} onChangeText={(val) => { setReapeatPassword(val) }} />
+            <Button title={strings("signup.reg_button")} onPress={() => onReg()} />
         </>
 
     )
@@ -67,6 +78,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         signUp: (creds) => dispatch(signUp(creds)),
+        errorMessage: (errMessage) => dispatch(errorMessage(errMessage))
 
     };
 };

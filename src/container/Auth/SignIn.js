@@ -17,25 +17,31 @@ import {
 } from '@react-native-google-signin/google-signin';
 
 import { connect } from "react-redux";
-import { signInGoogle, signIn, forgotPassword } from "../../redux/Actions/authActions";
+import { errorMessage,signInGoogle, signIn, forgotPassword } from "../../redux/Actions/authActions";
+
+import Error from "../../utils/Error";
+import { strings } from '../../utils/i18n';
 
 function SingIn(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState(false);
 
     const onLog = () => {
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        console.log("tiko " + reg.test(email))
-        if (reg.test(email) !== false) {
-            console.log("tikooo")
+        if (reg.test(email) !== false && password !== "") {
             const obj = {
                 email: email,
                 password: password
             }
             props.signIn(obj);
-        } else {
-            setError("check your login and password");
+        } else if (email === "" || password === "") {
+            setError(true);
+            props.errorMessage(strings('signin.error_email_password_isEmpty'));
+        }
+        else if (reg.test(email) === false) {
+            setError(true);
+            props.errorMessage(strings('signin.erro_check_your_email'));
         }
     }
 
@@ -63,12 +69,12 @@ function SingIn(props) {
   
     return (
         <>
-            <TextInput placeholder="email" type="email" onChangeText={(val) => { setEmail(val) } } />
-            <TextInput placeholder="password" onChangeText={(val) => { setPassword(val) }} />
-            <Text>{ error }</Text>
-            <Button title="SignIn" onPress={() => onLog()} />
-            <Button title="FrogotPassword" onPress={() => onChangePaswword()} />
-            <Button title="SignUp" onPress={() => onRegistrathion()} />
+            {error ? <Error /> : null}
+            <TextInput placeholder={strings('signin.email_textinput') } type="email" onChangeText={(val) => { setEmail(val) } } />
+            <TextInput placeholder={strings('signin.password_textinput')} onChangeText={(val) => { setPassword(val) }} />
+            <Button title={strings('signin.Signin_button')} onPress={() => onLog()} />
+            <Button title={strings('signin.frogotpassword_button')}  onPress={() => onChangePaswword()} />
+            <Button title={strings('signin.signup_button')} onPress={() => onRegistrathion()} />
             <GoogleSigninButton
                 style={{ width: 192, height: 48 }}
                 size={GoogleSigninButton.Size.Wide}
@@ -82,9 +88,11 @@ function SingIn(props) {
 
 const mapStateToProps = (state) => {
 
-    const uid = state.firebase.auth.uid;
+    const uid = state.auth.authUser.uid;
+
     return {
         uid: uid,
+
     };
 };
 
@@ -92,7 +100,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         signIn: (creds) => dispatch(signIn(creds)),
         forgotPassword: (email) => dispatch(forgotPassword(email)),
-        signInGoogle:() => dispatch(signInGoogle()),
+        signInGoogle: () => dispatch(signInGoogle()),
+        errorMessage: (errMessage) => dispatch(errorMessage(errMessage))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SingIn);

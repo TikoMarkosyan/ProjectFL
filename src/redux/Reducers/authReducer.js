@@ -7,7 +7,10 @@ const initialState = {
 	authUser: {
 		emailVerified: "",
 		uid: "",
-	}
+	},
+	error: {
+
+    }
 	
 }
 const authReducer = (state = initialState, action) => {
@@ -29,9 +32,11 @@ const authReducer = (state = initialState, action) => {
 				}
             }
        
-		case types.SING_IN_ERR:
-			return state;
-
+		case types.SIGN_IN_ERR:
+			return {
+				...state,
+				error: { ...action.playoud }
+			}
 		case "SIGN_OUT":
 			return initialState;
 		case types.SIGN_UP:
@@ -43,7 +48,9 @@ const authReducer = (state = initialState, action) => {
 				
 			};
 		case types.SIGN_UP_ERR:
-			return state;
+			return {
+				error: action.playoud
+			}
 		default:
 			return state;
 	}
